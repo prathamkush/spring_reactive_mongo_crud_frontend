@@ -62,7 +62,7 @@ export default function ViewProduct() {
                 </div>
 
 
-                <Link className="btn btn-primary my-2" to={"/"}>
+                <Link className="btn btn-primary my-2" to={"/admin-home"}>
                     Back to Home
                 </Link>
 

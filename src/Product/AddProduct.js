@@ -26,7 +26,9 @@ export default function AddProduct() {
 
     await axios.post("http://localhost:9092/products/save", product)
 
-    navigate("/")
+    alert("Product : "+ product.name + " Added Successfully !!")
+
+    navigate("/admin-home")
 
   }
 

@@ -33,8 +33,11 @@ export default function UpdateProduct() {
     e.preventDefault();
 
     await axios.put(`http://localhost:9092/products/update/${id}`, product)
+    
+    
+    alert("Product : "+ product.name +"'s details Updated !!")
 
-    navigate("/")
+    navigate("/admin-home")
 
   }
 
@@ -134,7 +137,7 @@ export default function UpdateProduct() {
                     Submit
                 </button>
                 
-                <Link className="btn btn-outline-danger mx-2" to="/">
+                <Link className="btn btn-outline-danger mx-2" to="/admin-home">
                     Cancel
                 </Link>
 

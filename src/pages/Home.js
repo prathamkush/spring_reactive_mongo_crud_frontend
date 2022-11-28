@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
-import {Link, useParams} from 'react-router-dom'
 
 export default function Home() {
 
     const [products, setProducts] = useState([]);
 
-    const {id} = useParams()
 
     // load this everytime page loads (home page)
     useEffect(() => {
@@ -22,12 +20,7 @@ export default function Home() {
         setProducts(result.data);
     };
     
-    const deleteProduct = async (id) => {
-        await axios.delete(`http://localhost:9092/products/delete/${id}`)
-
-        loadProducts()
-    }
-
+   
 
 
   return (
@@ -42,7 +35,6 @@ export default function Home() {
                     <th scope="col">Category</th>
                     <th scope="col">Qty</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,26 +49,6 @@ export default function Home() {
                             <td>{product.category}</td>
                             <td>{product.qty}</td>
                             <td>{product.price}</td>
-                            <td>
-                                <Link 
-                                    className="btn btn-primary mx-2"
-                                    to={`view-product/${product.id}`}
-                                >
-                                    View
-                                </Link>
-                                <Link 
-                                    className="btn btn-outline-primary mx-2" 
-                                    to={`/update-product/${product.id}`}
-                                >
-                                    Update
-                                </Link>
-                                <button 
-                                    className="btn btn-outline-danger mx-2"
-                                    onClick={()=>deleteProduct(product.id)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
                         </tr>
                     ))
                 }
