@@ -32,12 +32,33 @@ export default function UpdateProduct() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.put(`http://localhost:9092/products/update/${id}`, product)
-    
-    
-    alert("Product : "+ product.name +"'s details Updated !!")
+     //Regex for allowing alphanumeric,-,_ and space
+     const alphaNumeric = "^[A-Za-z0-9? ,_-]+$";
 
-    navigate("/admin-home")
+    if((product.name).search(alphaNumeric)){
+        alert("Name must contain Only alphanumeric, -, _ or space !!!");
+    }
+
+    else if((product.category).search(alphaNumeric)){
+        alert("Category must contain Only alphanumeric, -, _ or space !!!");
+    }
+
+    else{
+
+        try{
+
+            await axios.put(`http://localhost:9092/products/update/${id}`, product)
+
+            alert("Product : "+ product.name +"'s details Updated !!")
+
+            navigate("/admin-home")
+        }
+
+        catch(err){
+            alert("Product with id : "+id+" does not exist")
+        }
+    
+    }
 
   }
 
@@ -110,6 +131,7 @@ export default function UpdateProduct() {
                     </label>
                     <input
                         type={"number"}
+                        min="0"
                         className="form-control"
                         placeholder="Enter quantity"
                         name="qty"
@@ -125,6 +147,7 @@ export default function UpdateProduct() {
                     <input
                         type={"number"}
                         step="0.01"
+                        min="0"
                         className="form-control"
                         placeholder="Enter price"
                         name="price"

@@ -26,15 +26,16 @@ export default function AdminHome() {
     
     const deleteProduct = async (id) => {
         
-        // var answer = window.confirm("Delete Product ???");
-        // if (answer) {
-            
+        try{
             const result = await axios.delete(`http://localhost:9092/products/delete/${id}`)
-        
+    
             console.log(result);
 
             loadProducts()
-        // }
+        }
+        catch(err){
+            alert("Product with id : "+id+" not found !!")
+        }
 
     }
 

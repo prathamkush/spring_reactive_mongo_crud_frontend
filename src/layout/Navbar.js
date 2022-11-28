@@ -7,7 +7,7 @@ export default function Navbar() {
 
 <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
   <div className="container-fluid">
-    <Link className="navbar-brand" to="/">
+    <Link className="navbar-brand" to="/" reloadDocument="true">
         Home
     </Link>
     <button 

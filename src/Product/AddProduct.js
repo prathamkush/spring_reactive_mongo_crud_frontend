@@ -24,11 +24,31 @@ export default function AddProduct() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://localhost:9092/products/save", product)
+    //Regex for allowing alphanumeric,-,_ and space
+    const alphaNumeric = "^[A-Za-z0-9? ,_-]+$";
 
-    alert("Product : "+ product.name + " Added Successfully !!")
+    if((product.name).search(alphaNumeric)){
+        alert("Name must contain Only alphanumeric, -, _ or space !!!");
+    }
 
-    navigate("/admin-home")
+    else if((product.category).search(alphaNumeric)){
+        alert("Category must contain Only alphanumeric, -, _ or space !!!");
+    }
+
+    else{
+        try{
+            await axios.post("http://localhost:9092/products/save", product)
+    
+            alert("Product : "+ product.name + " Added Successfully !!")
+        
+            navigate("/admin-home")
+        }
+
+        catch(err){
+            alert("Due to some errors, product couldn't be added !!")
+        }
+      
+    }
 
   }
 
@@ -46,71 +66,72 @@ export default function AddProduct() {
 
                 <form onSubmit={(e)=>onSubmit(e)}>
 
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">
+                            <b>Name</b>
+                        </label>
+                        <input
+                            type={"text"}
+                            className="form-control"
+                            placeholder="Enter product name"
+                            name="name"
+                            value={name}
+                            onChange={(e)=>onInputChange(e)}
+                        />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
-                        <b>Name</b>
-                    </label>
-                    <input
-                        type={"text"}
-                        className="form-control"
-                        placeholder="Enter product name"
-                        name="name"
-                        value={name}
-                        onChange={(e)=>onInputChange(e)}
-                    />
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="category" className="form-label">
+                            <b>Category</b>
+                        </label>
+                        <input
+                            type={"text"}
+                            className="form-control"
+                            placeholder="Enter category(s) (comma separated)"
+                            name="category"
+                            value={category}
+                            onChange={(e)=>onInputChange(e)}
+                        />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="category" className="form-label">
-                        <b>Category</b>
-                    </label>
-                    <input
-                        type={"text"}
-                        className="form-control"
-                        placeholder="Enter category(s) (comma separated)"
-                        name="category"
-                        value={category}
-                        onChange={(e)=>onInputChange(e)}
-                    />
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="qty" className="form-label">
+                            <b>Qty</b>
+                        </label>
+                        <input
+                            type={"number"}
+                            className="form-control"
+                            min="0"
+                            placeholder="Enter quantity"
+                            name="qty"
+                            value={qty}
+                            onChange={(e)=>onInputChange(e)}
+                        />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="qty" className="form-label">
-                        <b>Qty</b>
-                    </label>
-                    <input
-                        type={"number"}
-                        className="form-control"
-                        placeholder="Enter quantity"
-                        name="qty"
-                        value={qty}
-                        onChange={(e)=>onInputChange(e)}
-                    />
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="price" className="form-label">
+                            <b>Price</b>
+                        </label>
+                        <input
+                            type={"number"}
+                            step="0.01"
+                            min="0"
+                            className="form-control"
+                            placeholder="Enter price"
+                            name="price"
+                            value={price}
+                            onChange={(e)=>onInputChange(e)}
+                        />
+                    </div>
 
-                <div className="mb-3">
-                    <label htmlFor="price" className="form-label">
-                        <b>Price</b>
-                    </label>
-                    <input
-                        type={"number"}
-                        step="0.01"
-                        className="form-control"
-                        placeholder="Enter price"
-                        name="price"
-                        value={price}
-                        onChange={(e)=>onInputChange(e)}
-                    />
-                </div>
+                    <button type="submit" className="btn btn-outline-primary">
+                        Submit
+                    </button>
 
-                <button type="submit" className="btn btn-outline-primary">
-                    Submit
-                </button>
-
-                <Link className="btn btn-outline-danger mx-2" to="/">
-                    Cancel
-                </Link>
+                    <Link className="btn btn-outline-danger mx-2" to="/admin-home">
+                        Cancel
+                    </Link>
 
                 </form>
             </div>
