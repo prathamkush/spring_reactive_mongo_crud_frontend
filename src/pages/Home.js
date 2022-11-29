@@ -18,14 +18,21 @@ export default function Home() {
     // async and await because js runs line by line
     const loadProducts = async() => {
 
-        const result = await axios.get("http://localhost:9092/products/")
+        try{
+            const result = await axios.get("http://localhost:9092/products/")
 
         
-        console.log("---------------------------->"+result.data+"<-----------------------------")
-        if(result.data.length==0) alert("NO PRODUCTS FOUND !!!")
-        setProducts(result.data);
+            console.log("---------------------------->"+result.data+"<-----------------------------")
+            if(result.data.length==0) alert("NO PRODUCTS FOUND !!!")
+            setProducts(result.data);
+    
+        }
 
-        // return result;
+        catch(err){
+            alert("NETWORK ERROR !!!")
+        }
+
+       
        
     };
 
