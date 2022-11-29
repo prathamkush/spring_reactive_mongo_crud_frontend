@@ -56,6 +56,7 @@ export default function UpdateProduct() {
 
         catch(err){
             alert("Product with id : "+id+" does not exist")
+            navigate("/admin-home")
         }
     
     }

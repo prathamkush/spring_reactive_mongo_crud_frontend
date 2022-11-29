@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import {Link, useParams} from "react-router-dom"
+import {Link, useNavigate, useParams} from "react-router-dom"
 import axios from "axios"
 
 export default function ViewProduct() {
+
+    let navigate = useNavigate()
     
     const [product, setProduct] = useState({
         name:"",
@@ -19,8 +21,16 @@ export default function ViewProduct() {
 
     // load data of that product
     const loadProduct = async () => {
-        const result = await axios.get(`http://localhost:9092/products/${id}`)
-        setProduct(result.data)
+        try{
+            const result = await axios.get(`http://localhost:9092/products/${id}`)
+            setProduct(result.data)
+        }
+
+        catch(err){
+            alert("Due to some errors, product can't be viewed !!")
+            navigate("/admin-home")            
+        }
+       
     }
 
 

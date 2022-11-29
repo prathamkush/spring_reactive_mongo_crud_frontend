@@ -51,6 +51,7 @@ export default function Login() {
                     type="email"
                     className="form-control"
                     placeholder="Enter email"
+                    required="true"
                     onChange={(e) => onEmailChange(e)}
                 />
                 </div>
@@ -60,6 +61,7 @@ export default function Login() {
                     type="password"
                     className="form-control"
                     placeholder="Enter password"
+                    required="true"
                     onChange={(e) => onPasswordChange(e)}
                 />
                 </div>

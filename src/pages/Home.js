@@ -13,11 +13,34 @@ export default function Home() {
     
     }, []);
 
+
+    const areProductsPresent = true;
     // async and await because js runs line by line
     const loadProducts = async() => {
-        const result = await axios.get("http://localhost:9092/products/");
-        // console.log(result.data)
+
+        const result = await axios.get("http://localhost:9092/products/")
+
+        
+        console.log("---------------------------->"+result.data+"<-----------------------------")
+        if(result.data.length==0) alert("NO PRODUCTS FOUND !!!")
         setProducts(result.data);
+
+        // return result;
+       
+    };
+
+    const loadProductsTemp = async() => {
+
+        try{
+            const result = await axios.get("http://localhost:9092/products/");
+            // console.log(result.data)
+            
+            if(result.data.length==0) alert("NO PRODUCTS FOUND !!!")
+            setProducts(result.data);
+        }
+        catch(err){
+            alert("Due to some errors, this request cannot be fulfilled !!")
+        }
     };
 
 
@@ -47,14 +70,22 @@ export default function Home() {
 
         else{
 
-            const result = await axios.get(`http://localhost:9092/products/getProductByName/${filtername}`)
+            try{
+                const result = await axios.get(`http://localhost:9092/products/getProductByName/${filtername}`)
 
-            if(result.data.length==0) 
-                alert("product(s) with name : "+filtername+ " not found")
+                if(result.data.length==0)
+                    alert("product(s) with name : "+filtername+ " not found")
+                
+                else
+                    setProducts(result.data)    
+                    // console.log(result.data)
+            }
 
-            else
-                setProducts(result.data)    
-                // console.log(result.data)
+            catch(err){
+                alert("Due to some errors, this request cannot be fulfilled !!")
+            }   
+
+            
         }
 
         document.getElementById('namefilter').value = ''
@@ -84,14 +115,21 @@ export default function Home() {
         
         else{
 
-            const result = await axios.get(`http://localhost:9092/products/getProductByCategory/${filtercategory}`)
+            try{
+                const result = await axios.get(`http://localhost:9092/products/getProductByCategory/${filtercategory}`)
 
-            if(result.data.length==0) alert("product(s) having category(s) : "+filtercategory+ " not found");
-    
-            else{
-                // console.log(result.data)
-                setProducts(result.data)
+                if(result.data.length==0) alert("product(s) having category(s) : "+filtercategory+ " not found");
+        
+                else{
+                    // console.log(result.data)
+                    setProducts(result.data)
+                }
             }
+
+            catch(err){
+                alert("Due to some errors, this request cannot be fulfilled !!")
+            } 
+           
         }
        
         document.getElementById('categoryfilter').value = ''
@@ -121,13 +159,21 @@ export default function Home() {
 
         else{
 
-            const result = await axios.get(`http://localhost:9092/products/product-in-range/${filterminprice}/${filtermaxprice}`)
+            try{
+                const result = await axios.get(`http://localhost:9092/products/product-in-range/${filterminprice}/${filtermaxprice}`)
 
-            if(result.data.length===0)
-                alert("product(s) in price range "+filterminprice+"-"+filtermaxprice+ " not found");
+                if(result.data.length===0)
+                    alert("product(s) in price range "+filterminprice+"-"+filtermaxprice+ " not found");
+    
+                else
+                    setProducts(result.data)
+            }
 
-            else
-                setProducts(result.data)
+            catch(err){
+                alert("Due to some errors, this request cannot be fulfilled !!")
+            } 
+
+           
         }
 
         document.getElementById('minpricefilter').value = ''
@@ -138,11 +184,7 @@ export default function Home() {
 
     //------------------------------//
 
-
     
-    
-   
-
 
   return (
     <div className='container'>
@@ -151,42 +193,44 @@ export default function Home() {
 
         <div className='py-4'>
             <h3><b>PRODUCTS</b>     </h3>
-        <table className="table border shadow">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Price</th>
-                </tr>
-            </thead>
-            <tbody>
 
-                {
-                    products.map((product,index)=>(
-                        <tr>
-                            <th scope="row" key={index}>
-                                {index+1}
-                            </th>
-                            <td>{product.name}</td>
-                            <td>{product.category}</td>
-                            <td>{product.qty}</td>
-                            <td>{product.price}</td>
-                        </tr>
-                    ))
-                }
-                
-            </tbody>
-        </table>
+
+            <table className="table border shadow">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {
+                        products.map((product,index)=>(
+                            <tr>
+                                <th scope="row" key={index}>
+                                    {index+1}
+                                </th>
+                                <td>{product.name}</td>
+                                <td>{product.category}</td>
+                                <td>{product.qty}</td>
+                                <td>{product.price}</td>
+                            </tr>
+                        ))
+                    }
+                    
+                </tbody>
+            </table>
 
         {/* //------------------------------// */}
 
         <button 
             className="btn btn-primary my-2"
-            onClick={()=>loadProducts()}
+            onClick={()=> loadProductsTemp()}
         >
-            Show All Products
+            Reset Filters
         </button>
         
 

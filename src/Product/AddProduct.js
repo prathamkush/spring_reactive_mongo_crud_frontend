@@ -46,6 +46,7 @@ export default function AddProduct() {
 
         catch(err){
             alert("Due to some errors, product couldn't be added !!")
+            navigate("/admin-home")
         }
       
     }
