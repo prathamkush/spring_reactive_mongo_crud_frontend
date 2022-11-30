@@ -36,7 +36,7 @@ export default function Login() {
 
     return (
         <div style={{   width:"400px",
-                        height: "800px",
+                        height: "400px",
                         position:"absolute",
                         top:0,
                         bottom: 0,

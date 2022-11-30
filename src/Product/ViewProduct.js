@@ -6,6 +6,9 @@ export default function ViewProduct() {
 
     let navigate = useNavigate()
     
+    
+
+
     const [product, setProduct] = useState({
         name:"",
         category:"",
@@ -72,9 +75,13 @@ export default function ViewProduct() {
                 </div>
 
 
-                <Link className="btn btn-primary my-2" to={"/admin-home"}>
+                <Link className="btn btn-primary my-2" 
+                    to={"/admin-home"}
+                    
+                >
                     Back to Home
                 </Link>
+                {/* <button className="btn btn-primary my-2" onClick={() => navigate(-1)}>Back to Home</button> */}
 
 
             </div>

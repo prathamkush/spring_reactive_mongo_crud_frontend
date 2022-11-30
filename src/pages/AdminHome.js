@@ -19,9 +19,19 @@ export default function AdminHome() {
 
     // async and await because js runs line by line
     const loadProducts = async() => {
-        const result = await axios.get("http://localhost:9092/products/");
-        // console.log(result.data)
-        setProducts(result.data);
+        try{
+            const result = await axios.get("http://localhost:9092/products/")
+
+        
+            console.log("---------------------------->"+result.data+"<-----------------------------")
+            if(result.data.length==0) alert("NO PRODUCTS FOUND !!!")
+            setProducts(result.data);
+    
+        }
+
+        catch(err){
+            alert("NETWORK ERROR !!!")
+        }
     };
     
     const deleteProduct = async (id) => {
@@ -39,12 +49,70 @@ export default function AdminHome() {
 
     }
 
+    // setting variable
+    const [filterbyid, setFilterbyid] = useState('')
+    
+    // setting the filter by id
+    const onChangeFilterById = (e) => {
+        setFilterbyid(e.target.value)
+    }
+
+    // on submit action
+    const onSubmitFilterById = async (e) => {
+        e.preventDefault()
+
+
+        try{
+            const result = await axios.get(`http://localhost:9092/products/${filterbyid}`)
+
+            if(result.data.length==0)
+                alert("Product with Id : "+filterbyid+" not found !!");
+
+            else
+                setProducts([result.data])
+            
+            document.getElementById('idfilter').value = ''
+        }
+
+        catch(err){
+            alert("Due to some errors, this request cannot be fulfilled !!")
+            document.getElementById('idfilter').value = ''
+        } 
+    }
+
 
 
   return (
+
     <div className='container'>
+        <br></br>
+        <div>
+            <form onSubmit={(e)=>onSubmitFilterById(e)}>
+                <input 
+                    type="text" id="idfilter" name="idfilter"
+                    placeholder="Enter product id"
+                    style={{float:'left'}}
+                    onChange={(e)=>onChangeFilterById(e)} required="true"
+                />
+                <br></br><br></br>
+                <button type="submit" className="btn btn-primary" style={{float:'left'}}>Filter by Id</button>
+            </form>
+
+            <button 
+                style={{float:'right'}}
+                className="btn btn-primary my-2"
+                onClick={()=> loadProducts()}
+            >
+                Show All Products
+            </button>
+
+        </div>
+        
 
         <div className='py-4'>
+
+        
+
         <table className="table border shadow">
             <thead>
                 <tr>
